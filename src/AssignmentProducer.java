@@ -37,6 +37,7 @@ public class AssignmentProducer implements Runnable {
             // insert them into the priority blocking queue
             for (Assignment unorderedAssignment : unorderedAssignments) {
 
+                System.out.println("Producing: " + unorderedAssignment);
                 assigmentPriorityQueue.put(unorderedAssignment);
                 Thread.sleep(500); // simulating some work
             }
