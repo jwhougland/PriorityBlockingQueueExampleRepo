@@ -1,17 +1,28 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.util.Comparator;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * Main class for the priority blocking queue console app.
+ */
 public class Main {
+
+    /**
+     * Entry method for the priority blocking queue console app.
+     *
+     * @param args Not used.
+     */
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        // Creating a priority blocking queue of assignments
+        PriorityBlockingQueue<Assignment> assignmentPriorityQueue = new PriorityBlockingQueue<>(3);
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
+        // Creating producer and consumer threads
+        Thread producerThread = new Thread(new AssignmentProducer(assignmentPriorityQueue));
+        Thread consumerThread = new Thread(new AssignmentConsumer(assignmentPriorityQueue));
+
+        // Starting the threads
+        producerThread.start();
+        consumerThread.start();
     }
 }
