@@ -28,7 +28,7 @@ public class AssignmentConsumer implements Runnable {
     public void run() {
         try {
 
-            while(!assigmentPriorityQueue.isEmpty()) {
+            for (int index = 0; index < 6; index++) {
 
                 Assignment assignment = assigmentPriorityQueue.take();
                 System.out.println("Consuming: " + assignment);
