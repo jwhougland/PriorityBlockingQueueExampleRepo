@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -26,17 +27,26 @@ public class AssignmentConsumer implements Runnable {
      */
     @Override
     public void run() {
-        try {
 
-            for (int index = 0; index < 6; index++) {
+        // Create a List to store the drained elements
+        while (true) {
+            // Drain elements from the queue
+            List<Assignment> drainedList = new ArrayList<>();
+            int numElements = assigmentPriorityQueue.drainTo(drainedList);
 
-                Assignment assignment = assigmentPriorityQueue.take();
-                System.out.println("Consuming: " + assignment);
-                Thread.sleep(500); // Simulating some work
+            // Process the drained elements
+            for (int i = 0; i < numElements; i++) {
+                Assignment element = drainedList.get(i);
+                System.out.println("Consumed: " + element);
+                // Process the element as needed
             }
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                Thread.sleep(1000); // Simulate some work being done
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 }

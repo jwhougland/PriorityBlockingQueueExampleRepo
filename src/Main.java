@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Creating a priority blocking queue of assignments
-        PriorityBlockingQueue<Assignment> assignmentPriorityQueue = new PriorityBlockingQueue<>(2);
+        PriorityBlockingQueue<Assignment> assignmentPriorityQueue = new PriorityBlockingQueue<>(3);
 
         // Creating producer and consumer threads
         Thread producerThread = new Thread(new AssignmentProducer(assignmentPriorityQueue));
