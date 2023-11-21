@@ -24,15 +24,5 @@ public class Main {
         // Starting the threads
         producerThread.start();
         consumerThread.start();
-
-        // Waiting for threads to finish
-        try {
-            producerThread.join();
-            consumerThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("All assignments produced and consumed");
     }
 }
