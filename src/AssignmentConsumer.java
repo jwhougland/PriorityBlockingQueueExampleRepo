@@ -13,7 +13,7 @@ public class AssignmentConsumer implements Runnable {
     private final PriorityBlockingQueue<Assignment> assigmentPriorityQueue;
 
     /**
-     * Creates a fully initialized assignment producer using the given data
+     * Creates a fully initialized assignment consumer using the given data
      *
      * @param assigmentPriorityQueue Priority blocking queue for assignments
      */
