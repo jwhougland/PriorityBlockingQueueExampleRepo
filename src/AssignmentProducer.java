@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
@@ -11,15 +13,44 @@ public class AssignmentProducer implements Runnable {
     /**
      * Priority blocking queue for assignments
      */
-    private final PriorityBlockingQueue<Assignment> assigmentPriorityQueue;
+    private final PriorityBlockingQueue<Assignment> assignmentPriorityQueue;
+
+    /**
+     * Maintains state about whether production of assignments is complete
+     */
+    private AtomicBoolean isProductionDone;
+
+    /**
+     * Final number of assignments produced
+     */
+    private AtomicInteger numberOfAssignments;
 
     /**
      * Creates a fully initialized assignment producer using the given data
      *
-     * @param assigmentPriorityQueue Priority blocking queue for assignments
+     * @param assignmentPriorityQueue Priority blocking queue for assignments
+     * @param isProductionDone     Maintains state about whether production of assignments is complete
+     * @param numberOfAssignments  Final number of assignments produced
      */
-    public AssignmentProducer(PriorityBlockingQueue<Assignment> assigmentPriorityQueue) {
-        this.assigmentPriorityQueue = assigmentPriorityQueue;
+    public AssignmentProducer(PriorityBlockingQueue<Assignment> assignmentPriorityQueue,
+                              AtomicBoolean isProductionDone,
+                              AtomicInteger numberOfAssignments) {
+
+        if (assignmentPriorityQueue == null) {
+            throw new IllegalArgumentException("Unable to produce assignments in a null data structure");
+        }
+
+        if (isProductionDone == null) {
+            throw new IllegalArgumentException("Unable to notify if assignment production is done");
+        }
+
+        if (numberOfAssignments == null) {
+            throw new IllegalArgumentException("Unable to report number of assignments produced");
+        }
+        
+        this.assignmentPriorityQueue = assignmentPriorityQueue;
+        this.isProductionDone = isProductionDone;
+        this.numberOfAssignments = numberOfAssignments;
     }
 
     /**
@@ -28,23 +59,29 @@ public class AssignmentProducer implements Runnable {
      */
     @Override
     public void run() {
+
+        List<Assignment> unorderedAssignments = null;
         try {
 
             // Create a list of assignments (which are unordered relative to due date/priority level)
-            List<Assignment> unorderedAssignments = createAssignments();
+            unorderedAssignments = createAssignments();
 
             // Iterate over the unordered assignments and
             // insert them into the priority blocking queue
             for (Assignment unorderedAssignment : unorderedAssignments) {
 
                 System.out.println("Producing: " + unorderedAssignment);
-                assigmentPriorityQueue.put(unorderedAssignment);
+                assignmentPriorityQueue.put(unorderedAssignment);
                 Thread.sleep(500); // simulating some work
             }
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // Notify that production is complete and the final count of assignments produced
+        isProductionDone.set(true);
+        numberOfAssignments.set(unorderedAssignments.size());
     }
 
     /**
