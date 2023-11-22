@@ -15,12 +15,12 @@ public class AssignmentConsumer implements Runnable {
     private final PriorityBlockingQueue<Assignment> assignmentPriorityQueue;
 
     /**
-     * Maintains state about whether production of assignments is complete
+     * Notifies us that production of assignments is complete
      */
     private AtomicBoolean isProductionDone;
 
     /**
-     * Final number of assignments produced
+     * Notifies us about the final number of assignments produced
      */
     private AtomicInteger numberOfAssignments;
 
@@ -28,6 +28,8 @@ public class AssignmentConsumer implements Runnable {
      * Creates a fully initialized assignment consumer using the given data
      *
      * @param assignmentPriorityQueue Priority blocking queue for assignments
+     * @param isProductionDone        Notifies us that production of assignments is complete
+     * @param numberOfAssignments     Notifies us about the final number of assignments produced
      */
     public AssignmentConsumer(PriorityBlockingQueue<Assignment> assignmentPriorityQueue,
                               AtomicBoolean isProductionDone,

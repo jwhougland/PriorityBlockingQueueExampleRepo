@@ -28,6 +28,7 @@ public class Main {
         // value once production is complete so the consumer thread will know how
         // many assignments are left to consume
         AtomicInteger numberOfAssignments = new AtomicInteger(Integer.MAX_VALUE);
+
         // Creating producer and consumer threads
         Thread producerThread = new Thread(
                 new AssignmentProducer(assignmentPriorityQueue, isProductionDone, numberOfAssignments));
