@@ -22,8 +22,8 @@ public class Main {
         // signal the consumer thread that production is done
         AtomicBoolean isProductionDone = new AtomicBoolean(false);
 
-        // Create an atomic integer that the producer thread will be able ot use to
-        // signal the consumer thread how many assignments have been produced.  This
+        // Create an atomic integer that the producer thread will use to inform
+        // the consumer thread about how many assignments have been produced.  This
         // will be initialized to the max value and then will be updated to a real
         // value once production is complete so the consumer thread will know how
         // many assignments are left to consume
